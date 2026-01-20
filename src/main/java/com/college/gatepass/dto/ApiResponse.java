@@ -11,13 +11,20 @@ import lombok.NoArgsConstructor;
 public class ApiResponse<T>{
     private boolean success;
     private T data;
-    private String error;
+    private Object error;
 
     public static <T> ApiResponse<T> success(T data) {
-        return new ApiResponse<>(true, data, null);
+        ApiResponse<T> res = new ApiResponse<>();
+        res.success = true;
+        res.data = data;
+        return res;
     }
 
-    public static <T> ApiResponse<T> error(String errorMessage) {
-        return new ApiResponse<>(false, null, errorMessage);
+    // ✅ CHANGE String → Object
+    public static <T> ApiResponse<T> error(Object error) {
+        ApiResponse<T> res = new ApiResponse<>();
+        res.success = false;
+        res.error = error;
+        return res;
     }
 }

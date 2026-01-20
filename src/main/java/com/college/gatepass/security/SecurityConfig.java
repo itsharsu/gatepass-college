@@ -1,0 +1,70 @@
+package com.college.gatepass.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+@Configuration
+@EnableMethodSecurity
+public class SecurityConfig {
+
+    private final JwtAuthFilter jwtAuthFilter;
+
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+        this.jwtAuthFilter = jwtAuthFilter;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+                // We use JWT → CSRF not needed
+                .csrf(csrf -> csrf.disable())
+
+                // Stateless REST API
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+
+                // Authorization rules
+                .authorizeHttpRequests(auth -> auth
+
+                        // 🔓 PUBLIC ENDPOINTS
+                        .requestMatchers(
+                                "/api/v1/auth/**",
+                                "/error"
+                        ).permitAll()
+
+                        // 👑 ADMIN
+                        .requestMatchers("/api/v1/admin/**")
+                        .hasRole("ADMIN")
+
+                        // 🎓 STUDENT
+                        .requestMatchers("/api/v1/students/**")
+                        .hasRole("STUDENT")
+
+                        // 👨‍🏫 TEACHER / FACULTY
+                        .requestMatchers("/api/v1/faculty/**")
+                        .hasRole("TEACHER")
+
+                        // 🛡 SECURITY
+                        .requestMatchers("/api/v1/security/**")
+                        .hasRole("SECURITY")
+
+                        // 🔒 EVERYTHING ELSE
+                        .anyRequest().authenticated()
+                )
+
+                // JWT FILTER (VERY IMPORTANT ORDER)
+                .addFilterBefore(
+                        jwtAuthFilter,
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
+        return http.build();
+    }
+}

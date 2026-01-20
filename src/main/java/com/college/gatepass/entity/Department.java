@@ -1,5 +1,6 @@
 package com.college.gatepass.entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,10 +22,6 @@ public class Department {
 
         @Column(nullable = false, unique = true)
         private String name;
-
-        @OneToOne
-        @JoinColumn(name = "hod_id")
-        private Faculty hod;
 
 }
 

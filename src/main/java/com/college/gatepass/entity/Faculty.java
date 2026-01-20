@@ -1,10 +1,18 @@
 package com.college.gatepass.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -17,10 +25,12 @@ public class Faculty {
     @Column(nullable = false)
     private String name;
 
-    private String designation;
-
-    @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
+    @ManyToMany
+    @JoinTable(
+            name = "faculty_departments",
+            joinColumns = @JoinColumn(name = "faculty_id"),
+            inverseJoinColumns = @JoinColumn(name = "department_id")
+    )
+    private Set<Department> departments = new HashSet<>();
 
 }

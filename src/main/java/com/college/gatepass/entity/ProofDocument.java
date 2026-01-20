@@ -19,14 +19,17 @@ public class ProofDocument {
     private UUID id;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "leave_id")
+    @JoinColumn(name = "leave_id", nullable = false)
     private Leave leave;
 
+    @Column(nullable = false)
     private String filePath;
+
+    @Column(nullable = false)
     private String fileType;
 
-    private LocalDateTime uploadedAt = LocalDateTime.now();
-
-    // getters & setters
+    @Column(nullable = false)
+    private LocalDateTime uploadedAt;
 }
+
 

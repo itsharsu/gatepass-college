@@ -23,6 +23,9 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    private String mobileNo;
+
+    @Column(nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
@@ -34,6 +37,8 @@ public class User {
     private Status status;
 
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    private boolean firstLogin = true;
 
     // getters & setters
 }

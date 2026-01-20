@@ -22,7 +22,7 @@ public class Notice {
 
     @ManyToOne
     @JoinColumn(name = "department_id")
-    private Department department; // null = all departments
+    private Department department;
 
     @Column(columnDefinition = "TEXT")
     private String content;
