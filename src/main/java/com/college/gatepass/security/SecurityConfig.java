@@ -49,7 +49,7 @@ public class SecurityConfig {
 
                         // 👨‍🏫 TEACHER / FACULTY
                         .requestMatchers("/api/v1/faculty/**")
-                        .hasRole("TEACHER")
+                        .hasRole("FACULTY")
 
                         // 🛡 SECURITY
                         .requestMatchers("/api/v1/security/**")

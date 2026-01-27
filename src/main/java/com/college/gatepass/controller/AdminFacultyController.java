@@ -2,6 +2,7 @@ package com.college.gatepass.controller;
 
 import com.college.gatepass.dto.ApiResponse;
 import com.college.gatepass.dto.CreateFacultyRequest;
+import com.college.gatepass.dto.FacultyCreateResponse;
 import com.college.gatepass.service.AdminFacultyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,10 @@ public class AdminFacultyController {
     private final AdminFacultyService adminFacultyService;
 
     @PostMapping
-    public ApiResponse<Void> createFaculty(
+    public ApiResponse<FacultyCreateResponse> createFaculty(
             @Valid @RequestBody CreateFacultyRequest request
     ) {
-        adminFacultyService.createFaculty(request);
-        return ApiResponse.success(null);
+        return ApiResponse.success(adminFacultyService.createFaculty(request));
     }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
+import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -22,6 +23,23 @@ public class JwtUtil {
     private final Key key = Keys.hmacShaKeyFor(
             SECRET.getBytes(StandardCharsets.UTF_8)
     );
+
+    public String generateLeaveToken(UUID leaveId, UUID studentId) {
+        return Jwts.builder()
+                .claim("leaveId", leaveId.toString())
+                .claim("studentId", studentId.toString())
+                .setExpiration(new Date(System.currentTimeMillis() + 6 * 60 * 60 * 1000))
+                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()))
+                .compact();
+    }
+
+    public Claims parseToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
 
     public String generateAccessToken(User user) {
         return Jwts.builder()

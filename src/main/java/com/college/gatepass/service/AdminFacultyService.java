@@ -1,6 +1,7 @@
 package com.college.gatepass.service;
 
 import com.college.gatepass.dto.CreateFacultyRequest;
+import com.college.gatepass.dto.FacultyCreateResponse;
 import com.college.gatepass.entity.*;
 import com.college.gatepass.exception.BadRequestException;
 import com.college.gatepass.repository.DepartmentRepository;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,26 +27,25 @@ public class AdminFacultyService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public void createFaculty(CreateFacultyRequest req) {
+    public FacultyCreateResponse createFaculty(CreateFacultyRequest req) {
 
         if (userRepository.existsByEmail(req.getEmail())) {
             throw new BadRequestException("Email already exists");
         }
 
-        // 🔥 Resolve departments
+        // Resolve departments
         Set<Department> departmentSet = new HashSet<>();
 
         for (String deptName : req.getDepartments()) {
             Department department = departmentRepository
                     .findByName(deptName)
                     .orElseThrow(() ->
-                            new BadRequestException(
-                                    "Invalid department: " + deptName
-                            )
+                            new BadRequestException("Invalid department: " + deptName)
                     );
             departmentSet.add(department);
         }
 
+        // Generate random password
         String rawPassword = PasswordGenerator.generate();
 
         // Create User
@@ -66,6 +67,12 @@ public class AdminFacultyService {
 
         facultyRepository.save(faculty);
 
-        // 🔔 (Optional later) Send password via email
+        // ✅ Return credentials to admin
+        return new FacultyCreateResponse(
+                faculty.getId().toString(),
+                user.getEmail(),
+                rawPassword
+        );
     }
+
 }

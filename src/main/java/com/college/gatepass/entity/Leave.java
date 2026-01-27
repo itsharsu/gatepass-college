@@ -1,19 +1,16 @@
 package com.college.gatepass.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "leaves")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Leave {
@@ -49,11 +46,12 @@ public class Leave {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    @OneToMany(
-            mappedBy = "leave",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    private List<ProofDocument> documents = new ArrayList<>();
+    // 🔥 IMPORTANT: Use Set to avoid MultipleBagFetchException
+    @OneToMany(mappedBy = "leave", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ProofDocument> documents = new HashSet<>();
+
+    @OneToMany(mappedBy = "leave", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LeaveApproval> approvals = new HashSet<>();
+
 }
 
