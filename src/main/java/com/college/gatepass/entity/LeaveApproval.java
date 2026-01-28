@@ -35,6 +35,6 @@ public class LeaveApproval {
 
     private LocalDateTime approvedAt = LocalDateTime.now();
 
-    // getters & setters
+
 }
 

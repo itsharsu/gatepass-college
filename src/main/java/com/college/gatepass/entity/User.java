@@ -39,7 +39,6 @@ public class User {
 
     private boolean firstLogin = true;
 
-    // getters & setters
 }
 
 

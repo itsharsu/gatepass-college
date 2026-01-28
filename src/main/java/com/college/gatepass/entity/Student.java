@@ -34,5 +34,5 @@ public class Student {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    // getters & setters
+
 }

@@ -30,10 +30,9 @@ public class SecurityLog {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "verified_by")
-    private User verifiedBy; // SECURITY role
+    private User verifiedBy;
 
     private LocalDateTime exitTime = LocalDateTime.now();
 
-    // getters & setters
 }
 

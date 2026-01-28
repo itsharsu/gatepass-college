@@ -25,10 +25,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         this.jwtUtil = jwtUtil;
     }
 
-    /**
-     * IMPORTANT:
-     * Skip JWT validation for auth endpoints
-     */
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
@@ -45,7 +42,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        // If no token → just continue (Spring will block later if needed)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -70,7 +66,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     .setAuthentication(authentication);
 
         } catch (Exception ex) {
-            // ❗ NEVER throw exception from filter
             SecurityContextHolder.clearContext();
         }
 
