@@ -38,7 +38,6 @@ public class AdminStudentService {
             BulkStudentRequest req = requests.get(i);
 
             try {
-                // 🔥 Each student runs in its own transaction
                 String rawPassword =
                         studentCreationService.createSingleStudent(req);
 
@@ -50,12 +49,10 @@ public class AdminStudentService {
 
             } catch (Exception ex) {
 
-                // STRICT mode → rollback everything
                 if (mode == BulkMode.STRICT) {
                     throw ex;
                 }
 
-                // LENIENT mode → capture error & continue
                 errors.add(new BulkStudentError(
                         i,
                         req.getEmail(),

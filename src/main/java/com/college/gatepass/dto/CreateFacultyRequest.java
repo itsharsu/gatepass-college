@@ -19,7 +19,6 @@ public class CreateFacultyRequest {
     @NotBlank(message = "Mobile number is required")
     private String mobileNo;
 
-    // 🔥 Multiple departments
     @NotEmpty(message = "At least one department is required")
     private Set<String> departments;
 }

@@ -14,7 +14,7 @@ public class LeaveDecisionRequest {
     private UUID leaveId;
 
     @NotNull
-    private LeaveStatus status; // APPROVED or REJECTED
+    private LeaveStatus status;
 
     private String remark;
 }

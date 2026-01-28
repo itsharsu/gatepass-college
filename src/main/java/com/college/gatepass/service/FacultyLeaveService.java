@@ -30,53 +30,7 @@ public class FacultyLeaveService {
     private final LeaveRepository leaveRepository;
     private final FacultyRepository facultyRepository;
 
-    /**
-     * Faculty sees pending leaves of assigned departments
-     */
-//    @Transactional(readOnly = true)
-//    public List<FacultyLeaveResponse> getPendingLeaves(UUID userId) {
-//
-//        // 1️⃣ Fetch faculty with departments
-//        Faculty faculty = facultyRepository.findByUserId(userId)
-//                .orElseThrow(() ->
-//                        new BadRequestException("Faculty not found")
-//                );
-//
-//        Set<Department> departments = faculty.getDepartments();
-//
-//        if (departments == null || departments.isEmpty()) {
-//            throw new BadRequestException("Faculty has no assigned departments");
-//        }
-//
-//        // 2️⃣ Fetch leaves
-//        List<Leave> leaves = leaveRepository
-//                .findByDepartmentInAndStatusOrderByCreatedAtDesc(
-//                        departments,
-//                        LeaveStatus.PENDING
-//                );
-//
-//        // 3️⃣ Map to DTO
-//        return leaves.stream()
-//                .map(leave -> new FacultyLeaveResponse(
-//                        leave.getId().toString(),
-//                        leave.getStudent().getName(),
-//                        leave.getStudent().getEnrollmentNumber(),
-//                        leave.getDepartment().getName(),
-//                        leave.getReason(),
-//                        leave.getDescription(),
-//                        leave.getFromDate(),
-//                        leave.getToDate(),
-//                        leave.getStatus().name(),
-//                        leave.getDocuments().stream()
-//                                .map(doc -> new LeaveDocumentResponse(
-//                                        doc.getId().toString(),
-//                                        doc.getFileType(),
-//                                        "/api/v1/files/" + doc.getId()
-//                                ))
-//                                .toList()
-//                ))
-//                .toList();
-//    }
+
     @Transactional(readOnly = true)
     public Page<FacultyLeaveResponse> getLeaves(
             UUID userId,

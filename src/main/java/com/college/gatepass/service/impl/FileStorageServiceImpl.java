@@ -24,13 +24,12 @@ public class FileStorageServiceImpl implements FileStorageService {
         }
 
         try {
-            // Ensure upload directory exists
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
 
-            // Generate unique filename
+
             String originalFilename = file.getOriginalFilename();
             String extension = getExtension(originalFilename);
 
@@ -40,14 +39,12 @@ public class FileStorageServiceImpl implements FileStorageService {
             Path targetLocation =
                     uploadPath.resolve(storedFileName);
 
-            // Save file
             Files.copy(
                     file.getInputStream(),
                     targetLocation,
                     StandardCopyOption.REPLACE_EXISTING
             );
 
-            // Return relative path (store in DB)
             return storedFileName;
 
         } catch (IOException ex) {

@@ -34,7 +34,7 @@ public class StudentLeaveService {
                         new BadRequestException("Student not found")
                 );
 
-        // 1️⃣ Create Leave
+
         Leave leave = new Leave();
         leave.setStudent(student);
         leave.setDepartment(student.getDepartment());
@@ -45,7 +45,7 @@ public class StudentLeaveService {
         leave.setStatus(LeaveStatus.PENDING);
         leave.setCreatedAt(LocalDateTime.now());
 
-        // 2️⃣ Handle optional documents
+
         if (documents != null && !documents.isEmpty()) {
             for (MultipartFile file : documents) {
 
@@ -62,7 +62,6 @@ public class StudentLeaveService {
             }
         }
 
-        // 3️⃣ Save everything in ONE transaction
         leaveRepository.save(leave);
     }
 }

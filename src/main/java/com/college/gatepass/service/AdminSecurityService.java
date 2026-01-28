@@ -26,8 +26,8 @@ public class AdminSecurityService {
             throw new BadRequestException("Email already exists");
         }
 
-        // Generate random password
-        String rawPassword = PasswordGenerator.generate(); // you already used this earlier
+
+        String rawPassword = PasswordGenerator.generate();
 
         User user = new User();
         user.setEmail(req.getEmail());

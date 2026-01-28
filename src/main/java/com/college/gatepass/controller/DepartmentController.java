@@ -20,7 +20,6 @@ public class DepartmentController {
 
     private final DepartmentService departmentService;
 
-    // 1️⃣ CREATE DEPARTMENT
     @PostMapping
     public ApiResponse<DepartmentResponse> create(
             @Valid @RequestBody DepartmentRequest request) {
@@ -30,7 +29,6 @@ public class DepartmentController {
         );
     }
 
-    // 3️⃣ LIST
     @GetMapping
     public ApiResponse<List<DepartmentResponse>> getAll() {
         return ApiResponse.success(

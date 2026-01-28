@@ -46,7 +46,7 @@ public class SecurityVerificationService {
         User security = userRepository.findById(securityUserId)
                 .orElseThrow(() -> new BadRequestException("Security user not found"));
 
-        // Prevent multiple exits
+
         if (securityLogRepository.existsByLeave(leave)) {
             throw new BadRequestException("Already exited");
         }

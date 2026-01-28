@@ -33,7 +33,7 @@ public interface LeaveRepository extends JpaRepository<Leave, UUID> {
             LocalDateTime to
     );
 
-    // PAGINATION VERSION (NO FETCH JOIN!)
+
     @Query("""
     SELECT l FROM Leave l
     WHERE l.student = :student

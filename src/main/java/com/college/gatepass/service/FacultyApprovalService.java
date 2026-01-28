@@ -30,16 +30,14 @@ public class FacultyApprovalService {
         Leave leave = leaveRepository.findById(req.getLeaveId())
                 .orElseThrow(() -> new BadRequestException("Leave not found"));
 
-        // Validate department match
+
         if (!faculty.getDepartments().contains(leave.getDepartment())) {
             throw new BadRequestException("Not authorized for this department");
         }
 
-        // Update Leave Status
         leave.setStatus(req.getStatus());
         leaveRepository.save(leave);
 
-        // Save Approval History
         LeaveApproval approval = new LeaveApproval();
         approval.setLeave(leave);
         approval.setApprovedBy(faculty.getUser());

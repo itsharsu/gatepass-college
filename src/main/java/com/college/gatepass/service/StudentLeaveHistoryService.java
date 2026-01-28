@@ -46,7 +46,7 @@ public class StudentLeaveHistoryService {
 
         return page.map(leave -> {
 
-            // Approval (0 or 1)
+
             LeaveApproval approval = leave.getApprovals()
                     .stream()
                     .findFirst()

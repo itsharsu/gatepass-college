@@ -22,44 +22,43 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                // We use JWT → CSRF not needed
+
                 .csrf(csrf -> csrf.disable())
 
-                // Stateless REST API
+
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-                // Authorization rules
+
                 .authorizeHttpRequests(auth -> auth
 
-                        // 🔓 PUBLIC ENDPOINTS
+
                         .requestMatchers(
                                 "/api/v1/auth/**",
                                 "/error"
                         ).permitAll()
 
-                        // 👑 ADMIN
+
                         .requestMatchers("/api/v1/admin/**")
                         .hasRole("ADMIN")
 
-                        // 🎓 STUDENT
+
                         .requestMatchers("/api/v1/students/**")
                         .hasRole("STUDENT")
 
-                        // 👨‍🏫 TEACHER / FACULTY
+
                         .requestMatchers("/api/v1/faculty/**")
                         .hasRole("FACULTY")
 
-                        // 🛡 SECURITY
+
                         .requestMatchers("/api/v1/security/**")
                         .hasRole("SECURITY")
 
-                        // 🔒 EVERYTHING ELSE
+
                         .anyRequest().authenticated()
                 )
 
-                // JWT FILTER (VERY IMPORTANT ORDER)
                 .addFilterBefore(
                         jwtAuthFilter,
                         UsernamePasswordAuthenticationFilter.class

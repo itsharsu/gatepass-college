@@ -33,7 +33,6 @@ public class AdminFacultyService {
             throw new BadRequestException("Email already exists");
         }
 
-        // Resolve departments
         Set<Department> departmentSet = new HashSet<>();
 
         for (String deptName : req.getDepartments()) {
@@ -45,10 +44,10 @@ public class AdminFacultyService {
             departmentSet.add(department);
         }
 
-        // Generate random password
+
         String rawPassword = PasswordGenerator.generate();
 
-        // Create User
+
         User user = new User();
         user.setEmail(req.getEmail());
         user.setMobileNo(req.getMobileNo());
@@ -59,7 +58,6 @@ public class AdminFacultyService {
 
         userRepository.save(user);
 
-        // Create Faculty
         Faculty faculty = new Faculty();
         faculty.setUser(user);
         faculty.setName(req.getName());
@@ -67,7 +65,6 @@ public class AdminFacultyService {
 
         facultyRepository.save(faculty);
 
-        // ✅ Return credentials to admin
         return new FacultyCreateResponse(
                 faculty.getId().toString(),
                 user.getEmail(),

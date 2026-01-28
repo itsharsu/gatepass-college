@@ -59,7 +59,7 @@ public class StudentCreationService {
 
         studentRepository.save(student);
 
-        return rawPassword; // IMPORTANT
+        return rawPassword;
     }
 }
 
